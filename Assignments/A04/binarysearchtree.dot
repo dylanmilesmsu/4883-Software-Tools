@@ -1,0 +1,18 @@
+digraph G {
+    "8" [label = "<left>| <data> 8 | <right>" shape = "record"];
+    "4" [label = "<left>| <data> 4 | <right>" shape = "record"];
+    "13" [label = "<left>| <data> 13 |<right>" shape = "record"];
+    "3" [label = "<left>| <data> 3 | <right>" shape = "record"];
+    "5" [label = "<left>| <data> 5 | <right>" shape = "record"];
+    "9" [label = "<left>| <data> 9 | <right>" shape = "record"];
+    "15" [label = "<left>| <data> 15 | <right>" shape = "record"];
+    
+    8:left:c->4:data [arrowtail=dot, dir=both, tailclip=false];
+    8:right:c->13:data [arrowtail=dot, dir=both, tailclip=false];
+    
+    4:left:c->3:data [arrowtail=dot, dir=both, tailclip=false];
+    4:right:c->5:data [arrowtail=dot, dir=both, tailclip=false];
+    
+    13:left:c->9:data [arrowtail=dot, dir=both, tailclip=false];
+    13:right:c->15:data [arrowtail=dot, dir=both, tailclip=false];
+}
