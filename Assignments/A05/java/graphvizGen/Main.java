@@ -91,14 +91,22 @@ public class Main {
 							lastGen = generation;
 						}
 					}
-					for(int gen = 0; gen < lastGen; gen++) {
+					for(int gen = 0; gen <= lastGen; gen++) {
 						output += "subgraph cluster_" + gen + " {\n";
-						output += "label = \"" + gen + "\"\n";
+						output += "label = \" Generation " + gen + "\"\n";
 						output += "rank=same\n";
 						output += "graph[style=dotted];\n";
+						output += "rankdir=LR\n";
 						for(Person p : treeList) {
 							if(Integer.valueOf(p.generation) == gen) {
-								output += p.pid + "\n";
+								String info = "[label = \"{<name> @ | <life> # | <age> & | <clan> %}\" shape = \"record\", color = \"!\"]";
+								info = info.replaceAll("@", p.name);
+								info = info.replaceAll("#", p.byear + "-" + p.dyear);
+								int age = Integer.valueOf(p.dyear) - Integer.valueOf(p.byear); 
+								info = info.replaceAll("&", age + "");
+								info = info.replaceAll("%", p.clan);
+								info = info.replaceAll("!", p.gender.equals("M") ? "blue" : "red");
+								output += p.pid + " " + info + "\n";
 							}
 						}
 						output += "}\n";
