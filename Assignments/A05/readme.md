@@ -18,7 +18,9 @@ Programmatically generate a graphviz dot file from a family tree
 ### Instructions
 
 Java JRE 11 or newer is required
+
 A binary is provided
+
 Make sure a clan_names.txt file and a tree.csv file are both included in the same directory as the jar
 
 - Example Command:
