@@ -12,7 +12,6 @@ from seleniumwire import webdriver
 from selenium.webdriver.chrome.service import Service   # Service is only needed for ChromeDriverManager
 from gui import buildWeatherURL
 from table import openTable
-import pprint
 
 
 import functools                                        # used to create a print function that flushes the buffer
@@ -32,10 +31,10 @@ def asyncGetWeather(url):
         #change '/usr/local/bin/chromedriver' to the path of your chromedriver executable
         service = Service(executable_path='/usr/local/bin/chromedriver')
         options = webdriver.ChromeOptions()
-        # options.add_argument('--headless')
+        options.add_argument('--headless')
         
         driver = webdriver.Chrome(service=service,options=options)  # run ChromeDriver
-        flushprint("Getting page...")
+        flushprint("Getting page... If ads decide to load its probably going to be slow")
         driver.get(url)                                             # load the web page from the URL
         flushprint("waiting 5 seconds for dynamic data to load...")
         time.sleep(5)                                               # wait for the web page to load
@@ -43,24 +42,6 @@ def asyncGetWeather(url):
         render = driver.page_source                                 # get the page source HTML
         driver.quit()                                               # quit ChromeDriver
         return render                                               # return the page source HTML
-    
-def tableDataText(table):    
-    """Parses a html segment started with tag <table> followed 
-    by multiple <tr> (table rows) and inner <td> (table data) tags. 
-    It returns a list of rows with inner columns. 
-    Accepts only one <th> (table header/data) in the first row.
-    """
-    def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
-        return [td.get_text(strip=True) for td in tr.find_all(coltag)]  
-    rows = []
-    trs = table.find_all('tr')
-    headerow = rowgetDataText(trs[0], 'th')
-    if headerow: # if there is a header row include first
-        rows.append(headerow)
-        trs = trs[1:]
-    for tr in trs: # for every table row
-        rows.append(rowgetDataText(tr, 'td') ) # data row       
-    return rows
 
 if __name__=='__main__':
 
@@ -78,51 +59,69 @@ if __name__=='__main__':
     history = soup.find('lib-city-history-observation')
     soup.contents
     table = history.findAll("table")
-    # print the parsed HTML
+    #only the first table has the stuff i want
     tableImInterestedIn = table[0]
     if 'daily' in url:
         lists = []
         for row in tableImInterestedIn.findAll("tr"):
             tempList = []
             for item in row.findAll("td"):
-                 print(item.text)
+                #go through all the items and add them to a temporary list
+                 #print(item.text)
                  tempList.append(item.text)
+            #check if theres actual content... for some reason theres blanks
             if len(tempList) > 0:
+                #then add those temp lists to the main list
+                #this way we have a list of lists for the table
                 lists.append(tempList)
-                print("--------")
-        print(lists)
+                #print("--------")
+        # print(lists)
         openTable(lists, True)
         
+    #most of the code is the same for the weekly/monthly,
+    #ill make notes of the different parts
     else:
         lists = []
         skip = 0;
         for row in tableImInterestedIn.findAll("tr"):
+            #the first tow is junk so throw away
             if skip > 1:
                 tempList = []
                 for item in row.findAll("td"):
-                    print(item.text)
+                    #print(item.text)
                     tempList.append(item.text)
                 lists.append(tempList)
-                print("--------")
+                #print("--------")
             skip += 1
-        print(lists)
-
+        #print(lists)
+        #after its done, everything is in one list
+        # but we need to differentiate them into multiple
+        # the max avg min serves as an indicator to know when to split it
+        # or 'total' in the case of the last one 
         table = []
         tempTable = []
         i = 0;
         for data in lists:
             if 'Max' in data[0] or 'Total' in data[0]:
+                #this is our flag for a new column
+                #we still wanna add the 'max avg min'
+                #to the start of the next column
                 table.append(tempTable)
+                #clear temp table
                 tempTable = []
                 fullText = ""
                 for text in data:
                     fullText += text + " "
                 tempTable.append(fullText.strip())
             else:
+                #instead of 'Max', 'Avg', 'Min'
+                #we want 'Max Avg Min'
                 fullText = ""
                 for text in data:
                     fullText += text + " "
+                #add to tempList
                 tempTable.append(fullText.strip())
+        #add tempList to main list `table`
         table.append(tempTable)
         
         # print(table)

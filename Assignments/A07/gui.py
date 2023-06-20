@@ -41,7 +41,8 @@ def buildWeatherURL(month=None, day=None, year=None, airport=None, filter=None):
 
     filterList = ['daily', 'weekly', 'monthly']
 
-    # monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    #I'm not a python expert so this is the cleanest way i know how to do this
+    #probably slow but cmon its python... its slow anyways :P
     monthList = []
     for i in range(1, 13):
         monthList.append(i)
@@ -54,11 +55,13 @@ def buildWeatherURL(month=None, day=None, year=None, airport=None, filter=None):
     for i in range(2000, current_year+1):
         yearList.append(i)
 
-    # Create the gui's layout using text boxes that allow for user input without checking for valid input
+    #read in icao codes with pandas
+    #i think i heard about this in class or something
     pdcodes = pandas.read_json("airports-better.json")
-    pdcodes = pdcodes.sort_values(by=["country"])
+    pdcodes = pdcodes.sort_values(by=["icao"])
     apcodes = pdcodes['icao'].tolist()
 
+    # Create the gui's layout using text boxes that allow for user input without checking for valid input
     layout = [
         [sg.Text('Month')],[sg.Combo(monthList)],
         [sg.Text('Day')],[sg.Combo(dayList)],
@@ -79,6 +82,7 @@ def buildWeatherURL(month=None, day=None, year=None, airport=None, filter=None):
     code = values[3]
     filter = values[4]
 
+    #just default values if you dont input anything
     if len(str(month)) < 1:
         month = current_month
     if len(str(day)) < 1:
@@ -90,11 +94,11 @@ def buildWeatherURL(month=None, day=None, year=None, airport=None, filter=None):
     if len(filter) < 1:
         filter = "monthly"
 
-    sg.popup('You entered', f"Month: {month}, Day: {day}, Year: {year}, Code: {code}, Filter: {filter}")
+    #sg.popup('You entered', f"Month: {month}, Day: {day}, Year: {year}, Code: {code}, Filter: {filter}")
 
     base_url = "https://wunderground.com/history"
     airport = code
-
+    #the date part was forgotten lol
     url = f"{base_url}/{filter}/{airport}/date/{year}-{month}-{day}"
     return url
 
