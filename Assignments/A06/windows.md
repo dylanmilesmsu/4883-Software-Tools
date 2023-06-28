@@ -2,6 +2,8 @@ download your GPU drivers (unless you want windows update to give you old ones)
 
 download [some other web browser](https://www.mozilla.org/en-US/firefox/new/)
 
+download [7-Zip](https://www.7-zip.org/) so you can actually open .rar and .7z files 
+
 next go to microsoft website get all the [.NET](https://dotnet.microsoft.com/en-us/download) 
 
 and [VC C++](https://learn.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist?view=msvc-170) runtimes or else nothing is gonna work right 
@@ -35,10 +37,10 @@ download some kind of linux-like bash environment to conviently use stuff like g
 you'll also need a [C compiler](https://gcc.gnu.org/install/binaries.html)
 
 
-... and I'm sure im missing some. All in all, as a developer, you'll need to visit at least 18 different websites as a developer
+... and I'm sure im missing some. All in all, as a developer, you'll need to visit at least 19 different websites as a developer
 
-or as an average user, you'll still want around 11. All the while dodging ads and malware.
+or as an average user, you'll still want around 12. All the while dodging ads and malware.
 
 You might also notice many of these programs require you to restart your computer to complete the install.
 
-On Pop!_OS, 13 of these essential programs are pre-installed or not applicable. And the other applications are alsoo conviently available in the Pop Shop
+On Pop!_OS, 14 of these essential programs are pre-installed or not applicable. And the other applications are alsoo conviently available in the Pop Shop
