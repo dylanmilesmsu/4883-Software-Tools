@@ -1,5 +1,7 @@
 Pop!_OS is an operating system for STEM and creative professional who use their computers to WORK
 
+check out [stuff you need to install on windows](./windows.md)
+
 * Sensible defaults
 * System76
 * Ubuntu/debian
