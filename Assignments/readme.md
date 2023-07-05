@@ -7,3 +7,4 @@
 |   3    |  [A05](./A05)    | Used Java to create a family tree based on an input csv file and clan name txt file |
 |   4    |  [A06](./A06)    | Notes and information about tool presentation |
 |   5    |  [A07](./A07)    | Used Python to web scrape a weather website, and output the results in a gui |
+|   6    |  [A08](./A08)    | Used Python and FastAPI to create an API of COVID-19 data |
